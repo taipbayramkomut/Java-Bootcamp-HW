@@ -98,10 +98,6 @@ public class OrderDetailsPage extends TemplateScreen implements ItemListener {
         emptyBackground(item);
     }
 
-    /**
-     * One of the two buttons is to return to the previous page, the other is for proceeding from the next page.
-     * @param e For button state control
-     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String command= e.getActionCommand();
@@ -119,10 +115,6 @@ public class OrderDetailsPage extends TemplateScreen implements ItemListener {
     }
     
 
-    /**
-     * To check states the combo boxes
-     * @param e  For combo box state control
-     */
     @Override
     public void itemStateChanged(ItemEvent e) {
     	DefaultComboBoxModel<String> boxes = new DefaultComboBoxModel<String>();

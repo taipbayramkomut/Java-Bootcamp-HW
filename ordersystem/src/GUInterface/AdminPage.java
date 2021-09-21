@@ -8,9 +8,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-/**
- * First we get the characteristics of the disease of the epidemic. This page is it.
- */
 public class AdminPage extends TemplateScreen implements ItemListener {
 	private static final long serialVersionUID = 1L;
 	private final JComboBox<String> spread;
@@ -74,10 +71,7 @@ public class AdminPage extends TemplateScreen implements ItemListener {
         emptyBackground(item);
     }
 
-    /**
-     * One of the two buttons is to return to the previous page, the other is for proceeding from the next page.
-     * @param e For button state control
-     */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String command= e.getActionCommand();
@@ -113,10 +107,7 @@ public class AdminPage extends TemplateScreen implements ItemListener {
         }
     }
 
-    /**
-     * To check states the combo boxes
-     * @param e  For combo box state control
-     */
+
     @Override
     public void itemStateChanged(ItemEvent e) {
     	options = spread.getSelectedItem().toString();

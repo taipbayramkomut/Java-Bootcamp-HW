@@ -46,10 +46,6 @@ public class OrderEntryPage extends TemplateScreen{
 
     }
 
-    /**
-     * There is a button on the page to exit simulation.
-     * @param operationTable main panel of the page
-     */
     private void exitButton(JPanel operationTable){
         JPanel buttons = new JPanel();
         buttons.setBackground(new Color(gray));
@@ -60,10 +56,6 @@ public class OrderEntryPage extends TemplateScreen{
         operationTable.add(buttons);
     }
 
-    /**
-     * There is a button to continue the simulation program.
-     * @param operationTable main panel of the page.
-     */
     private void systemInfo(JPanel operationTable, String heading, String command){
         JPanel buttons = new JPanel();
         buttons.setBackground(new Color(gray));
@@ -74,11 +66,6 @@ public class OrderEntryPage extends TemplateScreen{
         operationTable.add(buttons);
     }
 
-
-    /**
-     * One of the two buttons is for program exit, the other is for proceeding from the next page.
-     * @param e For button state control
-     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String command= e.getActionCommand();
