@@ -8,6 +8,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+/**
+ * Order Entry Page,
+ * When the customer enters his/her identity information correctly, he/she can place an order in this section.
+ * @author TOSHIBA
+ *
+ */
 public class OrderEntryPage extends TemplateScreen{
 	private static final long serialVersionUID = 1L;
 	
@@ -46,6 +52,10 @@ public class OrderEntryPage extends TemplateScreen{
 
     }
 
+    /**
+     * There is a button on the page to exit
+     * @param operationTable main panel of the page
+     */
     private void exitButton(JPanel operationTable){
         JPanel buttons = new JPanel();
         buttons.setBackground(new Color(gray));
@@ -66,6 +76,11 @@ public class OrderEntryPage extends TemplateScreen{
         operationTable.add(buttons);
     }
 
+
+    /**
+     * One of the two buttons is for program exit, the other is for proceeding from the next page.
+     * @param e For button state control
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String command= e.getActionCommand();

@@ -82,17 +82,23 @@ public class Order {
 	
 	private void saveData(String filePath) {
 		File file = new File(filePath);
+
 		try {
 	        PrintWriter outputfile = new PrintWriter(file);
-	        for(int i = 0; i < items.size(); ++i) {
-		        StringBuilder order = new StringBuilder();
-	        	order.append(customer.getName());
-	        	order.append(";" + id);
-	        	order.append(";" + items.get(i).getLineNbr());
-	        	order.append(";" + items.get(i).getProduct().getDescription());	        	
-	        	order.append(";" + orderDate + "\n");
-	        	outputfile.write(order.toString());
+		    StringBuilder order = new StringBuilder();
+		    
+		    order.append(customer.getName());
+	        order.append(";" + customer.getId());
+	        order.append(";" + customer.getAddress());
+	        order.append(";" + customer.getPhone());
+	        if(customer instanceof Company) {
+	        	order.append(";" + ((Company)customer).getContact());
+	        	order.append(";" + ((Company)customer).getDiscount());
 	        }
+	        else
+	        	order.append(";" + ((Individual)customer).getLicNumber());
+	        order.append("\n");
+	        outputfile.append(order.toString());
 	        outputfile.close();
 	    }
 	    catch (IOException e) {

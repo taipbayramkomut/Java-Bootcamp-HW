@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * It is the Home Page class.
+ */
 public class OnlineOrderSystem extends TemplateScreen {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +40,10 @@ public class OnlineOrderSystem extends TemplateScreen {
 
     }
 
-
+    /**
+     * There is a button on the page to exit.
+     * @param operationTable main panel of the page
+     */
     private void exitButton(JPanel operationTable){
         JPanel buttons = new JPanel();
         buttons.setBackground(new Color(gray));
@@ -48,7 +54,10 @@ public class OnlineOrderSystem extends TemplateScreen {
         operationTable.add(buttons);
     }
 
-
+    /**
+     * There is a button to continue the program.
+     * @param operationTable main panel of the page.
+     */
     private void systemInfo(JPanel operationTable, String heading, String command){
         JPanel buttons = new JPanel();
         buttons.setBackground(new Color(gray));
@@ -60,6 +69,10 @@ public class OnlineOrderSystem extends TemplateScreen {
     }
 
 
+    /**
+     * One of the two buttons is for program exit, the other is for proceeding from the next page.
+     * @param e For button state control
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String command= e.getActionCommand();
