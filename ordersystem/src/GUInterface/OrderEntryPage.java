@@ -39,7 +39,7 @@ public class OrderEntryPage extends TemplateScreen{
         userInfo.setBackground(Color.white);
         userInfo.setLayout(new GridLayout());
         table.add(userInfo);
-        textDesign(userInfo,"131044010 : Bayram Komut");
+        textDesign(userInfo, this.customer.getId() + ": " + this.customer.getName());
 
         operationTable.add(table);
         systemInfo(operationTable,"Sipariþ Ekle", "ADD");

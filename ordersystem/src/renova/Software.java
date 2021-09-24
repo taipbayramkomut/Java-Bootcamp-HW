@@ -6,10 +6,11 @@ public class Software extends Product{
 	 */
 	private String licence;
 	
-	public Software(String licence, String description, String name, double retailPrice) {
+	public Software(String licence, String description, int id, String name, double retailPrice) {
 		super();
 		this.licence = licence;
 		this.description = description;
+		this.id = id;
 		this.name = name;
 		this.retailPrice = retailPrice;
 	}

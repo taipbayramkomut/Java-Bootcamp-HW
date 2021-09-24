@@ -21,6 +21,7 @@ public abstract class TemplateScreen extends JFrame implements ScreenConstants, 
     protected JPanel item = new JPanel();
     protected JPanel border;
     protected Customer customer;
+	protected Product product;
 
     /**
      * This method is template theme of GUI. Border is a border, it's color is purple and

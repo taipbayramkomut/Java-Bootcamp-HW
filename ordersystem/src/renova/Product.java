@@ -13,7 +13,7 @@ public abstract class Product {
 	/**
 	 * Ürüne atanan kimliktir.
 	 */
-	protected static int id = 0;
+	protected int id = 0;
 	/**
 	 * Ürünün adýdýr.
 	 */
@@ -24,7 +24,7 @@ public abstract class Product {
 	protected double retailPrice;
 	
 	public Product() {
-		id++;
+	
 	}
 	
 	public String getDescription() {

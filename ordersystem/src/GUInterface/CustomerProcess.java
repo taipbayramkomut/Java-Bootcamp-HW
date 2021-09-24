@@ -1,6 +1,10 @@
 package GUInterface;
 
 import javax.swing.*;
+
+import renova.Company;
+import renova.Individual;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -15,7 +19,7 @@ import java.util.Scanner;
  */
 public class CustomerProcess extends TemplateScreen {
 	private static final long serialVersionUID = 1L;
-	private  JTextField[] fields = new JTextField[2];
+	private JTextField[] fields = new JTextField[7];
 
     public CustomerProcess(){
         JPanel middle = new JPanel();
@@ -69,13 +73,13 @@ public class CustomerProcess extends TemplateScreen {
             case "GO": {
             	try {
             		int id = Integer.parseInt(fields[1].getText());
-            		if(!validity(id))
+            		if(!validity(fields[0].getText(), id))
             			throw new Exception();
                     main_page.setVisible(false);
                 	new OrderEntryPage(customer);
             	}
             	catch(Exception exc) {
-            		JOptionPane.showMessageDialog(main_page,"Geçersiz Kullanýcý Numarasý!", "Sistem Giriþ Hatasý", JOptionPane.ERROR_MESSAGE);
+            		System.out.println(exc.getMessage());
             	}
                 break;
             }
@@ -87,21 +91,40 @@ public class CustomerProcess extends TemplateScreen {
      * @param number
      * @return
      */
-    private boolean validity(int number) {
+    private boolean validity(String name, int number) {
 		try {
 			Scanner sc = new Scanner(new File("Customer.csv"));  
 			sc.useDelimiter(";"); 
 			int count = 0;
+			String n = "";
 			while (sc.hasNext()){
 				String temp = sc.next();
-				if(count % 7 == 1) {
+				if(count % 7 == 0)
+					n = temp.toString();
+				else if(count % 7 == 1) {
 					int id_num = Integer.parseInt(temp);
 					if(id_num == number) {
-						return true;
+						if(n.equals(name)) {
+							int discount = 0;
+							String address = sc.next();
+							String phone = sc.next();
+							String contact = sc.next();
+							String dsc= sc.next();
+							if(!dsc.equals(" "))
+								discount = Integer.parseInt(dsc);
+							String lic = sc.next();
+							System.out.println(n + " " + id_num + " " + address + " " + phone + " " + contact + " " +  discount + " " + lic);
+							if(lic.equals(" "))
+								customer = new Company(contact, discount, address, id_num, n, phone);
+							else
+								customer = new Individual(lic, address, id_num, n, phone);
+							return true;
+						}
+						else {
+							JOptionPane.showMessageDialog(main_page,"Geçersiz Kullanýcý Ýsmi!", "Sistem Giriþ Hatasý", JOptionPane.ERROR_MESSAGE);
+							return false;
+						}
 					}
-				}
-				if(count % 7 == 0) {
-					count = 0;
 				}
 				count++;
 			}   
@@ -109,6 +132,7 @@ public class CustomerProcess extends TemplateScreen {
 	    catch (IOException e) {
 	        e.printStackTrace();
 	    }
+		JOptionPane.showMessageDialog(main_page,"Geçersiz Kullanýcý Numarasý!", "Sistem Giriþ Hatasý", JOptionPane.ERROR_MESSAGE);
 		return false;
     }
     

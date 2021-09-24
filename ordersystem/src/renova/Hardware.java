@@ -6,10 +6,11 @@ public class Hardware extends Product implements Taxable{
 	 */
 	private int warrantyPeriod;
 	
-	public Hardware(int warrantyPeriod, String description, String name, double retailPrice) {
+	public Hardware(int warrantyPeriod, String description, int id, String name, double retailPrice) {
 		super();
 		this.warrantyPeriod = warrantyPeriod;
 		this.description = description;
+		this.id = id;
 		this.name = name;
 		this.retailPrice = retailPrice;
 	}

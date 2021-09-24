@@ -6,10 +6,11 @@ public class Manual extends Product{
 	 */
 	private String publisher;
 	
-	public Manual(String publisher, String description, String name, double retailPrice) {
+	public Manual(String publisher, String description, int id,String name, double retailPrice) {
 		super();
 		this.publisher = publisher;
 		this.description = description;
+		this.id = id;
 		this.name = name;
 		this.retailPrice = retailPrice;
 	}

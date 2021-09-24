@@ -6,25 +6,36 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * It is the page or class that allows the customer to choose a product.
  * @author TOSHIBA
  *
  */
-public class OrderDetailsPage extends TemplateScreen implements ItemListener {
+public class OrderDetailsPage extends TemplateScreen  {
 	private static final long serialVersionUID = 1L;
 	private final JComboBox spread;
 	private JComboBox products;
 	private ArrayList<String> elements = new ArrayList<>();
 	private String type = "Donaným";
+	private String productName;
+	private JLabel[] infos = new JLabel[6];
+	private JTextField inp;
+	private boolean flag = true;
 
     public OrderDetailsPage(Customer customer){
     	this.customer = customer;
@@ -46,7 +57,33 @@ public class OrderDetailsPage extends TemplateScreen implements ItemListener {
         elements.add("Yazýlým");
         elements.add("Kitapçýk");
         spread = addSelectFromList(info, elements,"Ürün Tipi", "");
-        spread.addItemListener(this);
+        spread.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if ((e.getStateChange() == ItemEvent.SELECTED)) {
+                	DefaultComboBoxModel<String> boxes = new DefaultComboBoxModel<String>();
+            	    type = spread.getSelectedItem().toString();
+            	    elements.clear();
+            	    if(type.equals("Donaným")) {
+            	    	boxes.addElement("SSD");
+            	    	boxes.addElement("Klavye");
+            	    	productName = "SSD";
+            	    }
+            	    else if(type.equals("Yazýlým")){
+            	    	boxes.addElement("PES 2019");
+            	    	boxes.addElement("Adobe Reader");
+            	    	boxes.addElement("Eclipse");
+            	    	productName = "PES 2019";
+            	    }
+            	    else {
+            	    	boxes.addElement("Modern Operating Systems");
+            	    	boxes.addElement("UNIX System Programming");
+               	    	productName = "Modern Operating Systems";
+            	    }
+            	    products.setModel(boxes);
+                }
+            }
+        });
         middle.add(info);
         
         elements.clear();
@@ -65,7 +102,16 @@ public class OrderDetailsPage extends TemplateScreen implements ItemListener {
         }
         
         products = addSelectFromList(info, elements,"Ürün Ýsmi", "");
-        products.addItemListener(this);
+        products.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+    	        if ((e.getStateChange() == ItemEvent.SELECTED)) {
+    		    	productName = products.getSelectedItem().toString();
+    		    	System.out.println(productName);
+    	        }
+    	        getProductInfo();
+            }
+        });
         middle.add(info);
         
         
@@ -78,13 +124,13 @@ public class OrderDetailsPage extends TemplateScreen implements ItemListener {
         infoGrid.setHgap(5);
         textInfo.setLayout(infoGrid);
        
-        textDesign(textInfo, "Ürün Numarasý     " ,"-------------------");
-        textDesign(textInfo, "Ürün Birim Fiyatý " ,"-------------------");
-        textDesign(textInfo, "Garanti Süresi    " ,"-------------------");
-        textDesign(textInfo, "Yayýnlayýcýsý     " ,"-------------------");
-        textDesign(textInfo, "Yazýlým Lisansý   " ,"-------------------");
-        dataPanels(textInfo, "Ürün Adedi         ","");
-        textDesign(textInfo, "Toplam Tutar   " ,"0.00 TL");
+        infos[0] = textDesign(textInfo, "Ürün Numarasý     " ,"-------------------");
+        infos[1] = textDesign(textInfo, "Ürün Birim Fiyatý " ,"-------------------");
+        infos[2] = textDesign(textInfo, "Garanti Süresi    " ,"-------------------");
+        infos[3] = textDesign(textInfo, "Yayýnlayýcýsý     " ,"-------------------");
+        infos[4] = textDesign(textInfo, "Yazýlým Lisansý   " ,"-------------------");
+        inp = dataPanels(textInfo, "Ürün Adedi         ","");
+        infos[5] = textDesign(textInfo, "Toplam Tutar   " ,"0.00 TL");
         middle.add(textInfo);
 
         JPanel buttons = new JPanel();
@@ -117,35 +163,73 @@ public class OrderDetailsPage extends TemplateScreen implements ItemListener {
                 break;
             }
             case "GO": {
-                main_page.setVisible(false);
+            	if(flag) 
+            		main_page.setVisible(false);
+            	else
+            		JOptionPane.showMessageDialog(main_page,"Tam sayý adedi giriniz!", "Sistem Giriþ Hatasý", JOptionPane.ERROR_MESSAGE);
                 break;
             }
         }
     }
     
-
-    /**
-     * To check states the combo boxes
-     * @param e  For combo box state control
-     */
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-    	DefaultComboBoxModel<String> boxes = new DefaultComboBoxModel<String>();
-    	type = spread.getSelectedItem().toString();
-        elements.clear();
-        if(type.equals("Donaným")) {
-            boxes.addElement("SSD");
-            boxes.addElement("Klavye");
-        }
-        else if(type.equals("Yazýlým")){
-            boxes.addElement("PES 2019");
-            boxes.addElement("Adobe Reader");
-            boxes.addElement("Eclipse");
-        }
-        else {
-            boxes.addElement("Modern Operating Systems");
-            boxes.addElement("UNIX System Programming");
-        }
-        products.setModel(boxes);
+    private	void getProductInfo() {
+    	Scanner sc;
+		try {
+			sc = new Scanner(new File("product.csv"));
+			sc.useDelimiter(";"); 
+			int count = 0;
+			String name = "";
+			String description;
+			int id_num = 0;
+			while (sc.hasNext()){
+				String temp = sc.next();
+				if(count % 5 == 0)
+					name = temp.toString();
+				else if(count % 5 == 1)
+					id_num = Integer.parseInt(temp.toString());
+				else if(count % 5 == 2) {
+					description = temp.toString();
+					System.out.println(description + "-" + name);
+					if(description.equals(productName) && name.equals(type)) {
+						double price = Double.parseDouble(sc.next());
+						infos[0].setText(String.valueOf(id_num));
+						infos[1].setText(String.valueOf(price));
+						try {
+							int numberOfItems = Integer.parseInt(inp.getText());
+							infos[5].setText(String.valueOf(price * numberOfItems));
+							flag = true;
+						}
+						catch(Exception e) {
+							e.printStackTrace();
+							flag = false;
+						}
+						if(description.equals("Donaným")) {
+							int warranty = Integer.parseInt(sc.next());
+							product = new Hardware(warranty, name, id_num, description, price);
+							infos[2].setText(String.valueOf(warranty));
+						}
+						else if(description.equals("Yazýlým")){
+							String licence = sc.next();
+							product = new Software(licence, name, id_num, description, price);
+							infos[3].setText(licence);
+						}
+						else {
+							String publisher = sc.next();
+							product = new Manual(publisher, name, id_num, description, price);
+							infos[4].setText(publisher);
+						}
+					}
+				}
+				count++;
+			}
+		} 
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
     }
+    
+
 }
+
+
